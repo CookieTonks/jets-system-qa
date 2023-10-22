@@ -32,7 +32,6 @@ class produccion_controller extends Controller
             ->select('productions.*', 'orders.cantidad', 'orders.cant_entregada', 'orders.procesos', 'orders.cant_retrabajo')
             ->get();
 
-            
 
         $usuarios = models\user::where('role', '=', 'Programador')->orderBy('name', 'ASC')->get();
 
@@ -44,7 +43,8 @@ class produccion_controller extends Controller
     public function asignacion_produccion(Request $request)
     {
 
-
+        try {
+            DB::beginTransaction(); 
         $date = Carbon::now();
 
         $maquina = models\maquinas::where('codigo', '=', $request->maquina)->first();
@@ -57,6 +57,7 @@ class produccion_controller extends Controller
 
         $registro_maquina = new models\registros_maquinas();
         $registro_maquina->ot = $request->ot;
+        $registro_maquina->tipo = "ASIGNADA";
         $registro_maquina->maquina = $request->maquina;
         $registro_maquina->responsable = $programador->name;
         $registro_maquina->save();
@@ -89,6 +90,13 @@ class produccion_controller extends Controller
         $registro_jets->movimiento = 'PRODUCCION - ASIGNADA';
         $registro_jets->responsable = Auth::user()->name;
         $registro_jets->save();
+        DB::commit();
+        }
+        catch (\Exception $e) {
+            DB::rollBack(); 
+            Log::error('Error en asignacion_produccion: ' . $e->getMessage());
+            return back()->with('mensaje-error', 'Error al asignar la orden de trabajo.');
+        }
 
         return back()->with('mensaje-success', '¡Orden de trabajo asignada!');
     }
@@ -142,8 +150,6 @@ class produccion_controller extends Controller
     public function dashboard_programador()
     {
         $notificaciones = Models\notifications::all();
-
-
 
 
         $ordenes = models\production::join('orders', 'orders.id', '=', 'productions.ot')
@@ -317,17 +323,24 @@ class produccion_controller extends Controller
 
             $orden_programador->tiempo_progreso = $orden_programador->tiempo_progreso + $minutos;
             $orden_programador->save();
-
             $orden_programador_limpia = models\production::where('id', '=', $request->id)->first();
-            $orden_programador_limpia->tiempo_final = $now;
-            $orden_programador_limpia->pr = $orden_programador_limpia->pr + 1;
-            $orden_programador_limpia->save();
+
 
             $maquina = models\maquinas::where('codigo', '=', $orden_programador_limpia->maquina_asignada)->first();
-            $maquina->carga = $maquina->carga - 1;
+            if ($maquina->carga >= 1) {
+                $maquina->carga -= 1;
+            }
             $maquina->estatus = 'SIN CARGA';
             $maquina->save();
 
+
+            $orden_programador_limpia->tiempo_final = $now;
+            $orden_programador_limpia->persona_asignada = "";
+            $orden_programador_limpia->maquina_asignada= "";
+            $orden_programador_limpia->pr = $orden_programador_limpia->pr + 1;
+            $orden_programador_limpia->save();
+
+            
 
 
 

@@ -299,7 +299,7 @@
                                                     </td>
                                                     @endif
 
-                                                    <td>{{$material->ot}}</td>
+                                                    <td> <a target="_blank" href="public/storage/dibujos/{{$material->ot}}/{{$material->ot}}.pdf" class="enlace-blanco">{{$material->ot}}</a></td>
                                                     <td>{{$material->tipo}}</td>
                                                     <td>{{$material->cantidad_solicitada}}</td>
                                                     <td>{{$material->um}}</td>
@@ -370,7 +370,7 @@
                                                         </button>
                                                     </td>
                                                     @endif
-                                                    <td>{{$material->ot}}</td>
+                                                    <td> <a target="_blank" href="public/storage/dibujos/{{$material->ot}}/{{$material->ot}}.pdf" class="enlace-blanco">{{$material->ot}}</a></td>
                                                     <td>{{$material->tipo}}</td>
                                                     <td>{{$material->cantidad_solicitada}}</td>
                                                     <td>{{$material->um}}</td>

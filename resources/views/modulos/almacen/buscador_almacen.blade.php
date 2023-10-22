@@ -257,7 +257,7 @@
                                             <tbody>
                                                 @foreach($materiales as $material)
                                                 <tr>
-                                                    <td>{{$material->ot}}</td>
+                                                <td> <a target="_blank" href="public/storage/dibujos/{{$material->ot}}/{{$material->ot}}.pdf" class="enlace-blanco">{{$material->ot}}</a></td>
                                                     <td>{{$material->descripcion}}</td>
                                                     <td>{{$material->oc}}</td>
                                                     <td>{{$material->proveedor}}</td>

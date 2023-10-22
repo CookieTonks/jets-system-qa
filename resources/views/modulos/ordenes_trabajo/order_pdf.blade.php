@@ -116,6 +116,7 @@
         <th>Salida produccion</th>
         <th>Salida cliente </th>
         <th style="width:210px;">Prioridad</th>
+        <th>Tratamiento externo </th>
       </tr>
     </thead>
     <tbody style="font-size:xx-small;">
@@ -123,6 +124,7 @@
         <td> {{$order->salida_produccion}} </td>
         <td> {{$order->salida_cliente}} </td>
         <td> {{$order->prioridad}} </td>
+        <td> {{$order->tratamiento}} </td>
 
       </tr>
     </tbody>

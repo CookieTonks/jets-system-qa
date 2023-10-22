@@ -509,6 +509,7 @@
                                                 @foreach($usuarios as $usuario)
                                                 <option value="{{$usuario->id}}">{{$usuario->name}}</option>
                                                 @endforeach
+                                                <option value="{{ Auth::user()->id }}">{{ Auth::user()->name }}</option>
                                             </select>
                                         </div>
                                     </div>

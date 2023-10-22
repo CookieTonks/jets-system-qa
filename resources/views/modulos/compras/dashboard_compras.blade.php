@@ -88,7 +88,7 @@
                                 Producción
                             </a>
                             <div class="dropdown-menu" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
-                                <a class="dropdown-item" href="{{route ('dashboard_facturacion')}}">Módulo Facturación</a>
+                                <a class="dropdown-item" href="{{route ('dashboard_produccion')}}">Módulo Produccion</a>
                                 <a class="dropdown-item" href="{{route ('dashboard_programador')}}">Módulo Técnico</a>
                             </div>
                         </li>
@@ -305,7 +305,11 @@
                                                 <td>{{$material->oc}}</td>
                                                 <td>{{$material->proveedor}}</td>
                                                 <td>{{$material->salida_produccion}}</td>
+                                                @if($material->tipo === "TRATAMIENTO EXTERNO")
+                                                <td>{{$material->cantidad_solicitada}}</td>
+                                                @else
                                                 <td>{{$material->cantidad_almacen}}</td>
+                                                @endif
                                             </tr>
                                             @endforeach
                                         </tbody>

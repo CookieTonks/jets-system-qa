@@ -274,7 +274,11 @@
                                                 <td>{{$material->oc}}</td>
                                                 <td>{{$material->proveedor}}</td>
                                                 <td>{{$material->salida_produccion}}</td>
+                                                @if($material->tipo === "TRATAMIENTO EXTERNO")
+                                                <td>{{$material->cantidad_solicitada}}</td>
+                                                @else
                                                 <td>{{$material->cantidad_almacen}}</td>
+                                                @endif
                                             </tr>
                                             @endforeach
                                         </tbody>
