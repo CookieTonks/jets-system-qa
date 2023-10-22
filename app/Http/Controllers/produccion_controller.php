@@ -92,6 +92,7 @@ class produccion_controller extends Controller
         $registro_jets->save();
         DB::commit();
         }
+        //
         catch (\Exception $e) {
             DB::rollBack(); 
             Log::error('Error en asignacion_produccion: ' . $e->getMessage());
