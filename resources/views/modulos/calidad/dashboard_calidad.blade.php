@@ -468,7 +468,7 @@
                                             <input class="form-control" id="cantpro" name="cantpro" placeholder="" value="" type="text" readonly>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <!-- <div class="row">
                                         <div class="col-md-4 form-group">
                                             <label for="">Cant. Scrap</label>
                                             <input required  class="form-control" id="cant_scrap" name="cant_scrap" placeholder="" value=""  min="1" type="number" onlyread>
@@ -481,7 +481,7 @@
                                             <label for="ot">Cant. Liberada</label>
                                             <input required class="form-control" id="cant_liberada" name="cant_liberada" placeholder="" min="1" value="" type="number" onlyread>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <hr>
 
                                     <div class="row">

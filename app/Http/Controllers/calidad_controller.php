@@ -42,7 +42,6 @@ class calidad_controller extends Controller
     public function calidad_embarques(Request $request)
     {
 
-        //Parcialidad liberada
 
         if ($request->tipo_inspeccion === 'LIBERADO') {
 
@@ -66,14 +65,12 @@ class calidad_controller extends Controller
                 $salida->estatus = "ENVIADA A TRATAMIENTO";
                 $salida->save();
 
-
-
                 $alta_material = new Models\materiales();
                 $alta_material->ot = $request->ot;
                 $alta_material->descripcion = $orden_datos->descripcion;
                 $alta_material->tipo = 'TRATAMIENTO EXTERNO';
                 $alta_material->codigo = $request->codigo;
-                $alta_material->cantidad_solicitada = $request->cant_liberada;
+                $alta_material->cantidad_solicitada = $request->cantpro;
                 $alta_material->proveedor = '-';
                 $alta_material->um = "PZA";
                 $alta_material->empresa = $orden_datos->empresa;
@@ -103,15 +100,12 @@ class calidad_controller extends Controller
         //Parcialidad para retrabajo
         else if ($request->tipo_inspeccion === 'RETRABAJO') {
 
-
-
-
             $reporte = new models\pconforme();
             $reporte->ot = $request->ot;
             $reporte->num_parte = $request->num_parte;
             $reporte->operador = $request->operador;
             $reporte->descripcion = $request->descripcion;
-            $reporte->cant = $request->cant_scrap;
+            $reporte->cant = $request->cantpro;
             $reporte->cliente = $request->cliente;
             $reporte->analisis = $request->analisis;
             $reporte->origen = $request->origen;
@@ -125,13 +119,13 @@ class calidad_controller extends Controller
 
             $produccion = models\production::where('ot', '=', $request->ot)->first();
             $produccion->estatus = 'RETRABAJO';
-            $produccion->pr = 0;
+            $produccion->pr = $cantpro;
 
             $produccion->modalidad = 'RETRABAJO';
             $produccion->save();
 
             $order = models\orders::where('id', '=', $request->ot)->first();
-            $order->cant_retrabajo = $request->cant_retrabajo;
+            $order->cant_retrabajo = $request->cantpro;
             $order->save();
 
             $registro_jets = new models\jets_registros();
@@ -156,7 +150,7 @@ class calidad_controller extends Controller
             $reporte->num_parte = $request->num_parte;
             $reporte->operador = $request->operador;
             $reporte->descripcion = $request->descripcion;
-            $reporte->cant = $request->cant_scrap;
+            $reporte->cant = $request->cantpro;
             $reporte->cliente = $request->cliente;
             $reporte->analisis = $request->analisis;
             $reporte->origen = $request->origen;
@@ -198,16 +192,6 @@ class calidad_controller extends Controller
                 $material->save();
             }
         }
-
-        $inspections = new models\inspections();
-        $inspections->ot = $request->ot;
-        $inspections->tipo_inspeccion = $request->tipo_inspeccion;
-        $inspections->cant_scrap = $request->cant_scrap;
-        $inspections->cant_liberada = $request->cant_liberada;
-        $inspections->cant_retrabajo = $request->cant_retrabajo;
-        $inspections->usuario = Auth::user()->name;
-        $inspections->observaciones = $request->observaciones;
-        $inspections->save();
 
 
         return back()->with('mensaje-success', '¡Inpección realizada con exito!');

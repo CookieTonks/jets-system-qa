@@ -287,7 +287,7 @@
                                                         <button type="button" class="btn  btn-sm btn-secondary" data-toggle="modal" data-target="#reubicacion_orden" data-ot="{{$orden->ot}}" data-cliente="{{$orden->cliente}}" data-descripcion="{{$orden->descripcion}}">
                                                             <i class="icon-shuffle"></i>
                                                         </button>
-                                                        <button type="button" class="btn  btn-success btn-sm" data-toggle="modal" data-target="#salida_orden" data-ot="{{$orden->ot}}" data-cliente="{{$orden->cliente}}" data-descripcion="{{$orden->descripcion}}">
+                                                        <button type="button" class="btn  btn-success btn-sm" data-toggle="modal" data-target="#salida_orden" data-ot="{{$orden->ot}}" data-cantidad="{{$orden->cantidad}}" data-cliente="{{$orden->cliente}}" data-descripcion="{{$orden->descripcion}}">
                                                             <i class="icon-check"></i>
                                                         </button>
                                                     </th>
@@ -317,7 +317,7 @@
                                                             <i class="icon-shuffle"></i>
                                                         </button>
 
-                                                        <button type="button" class="btn  btn-success btn-sm" data-toggle="modal" data-target="#salida_orden" data-ot="{{$orden->ot}}" data-cliente="{{$orden->cliente}}" data-descripcion="{{$orden->descripcion}}">
+                                                        <button type="button" class="btn  btn-success btn-sm" data-toggle="modal" data-target="#salida_orden" data-ot="{{$orden->ot}}" data-cantidad="{{$orden->cantidad}}" data-cliente="{{$orden->cliente}}" data-descripcion="{{$orden->descripcion}}">
                                                             <i class="icon-check"></i>
                                                         </button>
 
@@ -509,6 +509,8 @@
                                                 @foreach($usuarios as $usuario)
                                                 <option value="{{$usuario->id}}">{{$usuario->name}}</option>
                                                 @endforeach
+                                                <option value="4">Miriam</option>
+
                                             </select>
                                         </div>
                                     </div>
@@ -520,7 +522,7 @@
                                         </div>
                                         <div class="col-md-6 form-group">
                                             <label for="ot">Cant. Retrabajo</label>
-                                            <input class="form-control" id="retrabajo" name="retrabajo" placeholder="" value="" type="text" onlyread>
+                                            <input class="form-control" id="retrabajo" name="retrabajo" placeholder="" value="" type="text" readonly>
                                         </div>
                                     </div>
                                     <br>
@@ -578,6 +580,7 @@
                                                 @foreach($usuarios as $usuario)
                                                 <option value="{{$usuario->id}}">{{$usuario->name}}</option>
                                                 @endforeach
+
                                             </select>
                                         </div>
                                     </div>
@@ -621,16 +624,14 @@
                                     <div class="row">
                                         <div class="col-md-12 form-group">
                                             <label for="cantidad">Cantidad de piezas</label>
-                                            <input class="form-control" id="cantidad" name="cantidad" placeholder="" value="" type="text">
+                                            <input class="form-control" id="cantidad" name="cantidad" placeholder="" value="" type="text" readonly>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12 form-group">
                                             <label for="tipo_salida">Tipo Salida</label>
                                             <select name="tipo_salida" class="form-control custom-select d-block w-100" id="maquina">
-                                                <option value="">Selecciona una opcion...</option>
-                                            <!--   <option>SALIDA PARCIAL</option> -->
-                                                <option>SALIDA FINAL</option>
+                                                 <option value="SALIDA FINAL">SALIDA FINAL</option>
                                             </select>
                                         </div>
                                     </div>
@@ -707,11 +708,11 @@
                 var cliente = button.data('cliente')
                 var descripcion = button.data('descripcion')
 
+
                 var modal = $(this)
                 modal.find('.modal-title').text('Reasignación de OT')
                 modal.find('#ot').val(ot)
                 modal.find('#cliente').val(cliente)
-                modal.find('#descripcion').val(descripcion)
             })
         });
     </script>
@@ -724,6 +725,8 @@
                 var ot = button.data('ot')
                 var cliente = button.data('cliente')
                 var descripcion = button.data('descripcion')
+                var cantidad = button.data('cantidad')
+
 
 
                 var modal = $(this)
@@ -731,7 +734,7 @@
                 modal.find('#ot').val(ot)
                 modal.find('#cliente').val(cliente)
                 modal.find('#descripcion').val(descripcion)
-
+                modal.find('#cantidad').val(cantidad)
 
             })
         });

@@ -155,8 +155,8 @@ class produccion_controller extends Controller
 
         $ordenes = models\production::join('orders', 'orders.id', '=', 'productions.ot')
             ->where('productions.estatus', '<>', 'FINALIZADA')
-                        ->where('productions.estatus', '<>', 'E.CALIDAD')
-
+            ->where('productions.estatus', '<>', 'E.CALIDAD')
+            ->where('productions.estatus', '<>', 'CERRADA')
             ->where('productions.persona_asignada', '=', Auth::user()->name)
             ->get(['productions.*', 'orders.cant_retrabajo', 'orders.cantidad']);
 
@@ -360,21 +360,23 @@ public function salida_produccion(Request $request)
 {
     $orden_programador = models\production::where('ot', '=', $request->ot)->first();
 
-    if ($orden_programador->modalidad === 'SCRAP' || $orden_programador->modalidad === 'RETRABAJO') {
-        // Realizar los registros sin verificar la igualdad
-        $this->realizarRegistros($request);
-    } else {
-        $piezas = models\salidas_produccion::where('ot', '=', $request->ot)->sum('cantidad');
-        $oc = models\orders::where('id', '=', $request->ot)->first();
-
-        $suma = $piezas + $request->cantidad;
-
-        if ($suma <= $oc->cantidad) {
             $this->realizarRegistros($request);
-        } else {
-            return $this->redireccionarConError('¡Las piezas no coinciden con la orden de compra!');
-        }
-    }
+
+
+    // if ($orden_programador->modalidad === 'SCRAP' || $orden_programador->modalidad === 'RETRABAJO') {
+    //     $this->realizarRegistros($request);
+    // } else {
+    //     $piezas = models\salidas_produccion::where('ot', '=', $request->ot)->sum('cantidad');
+    //     $oc = models\orders::where('id', '=', $request->ot)->first();
+
+    //     $suma = $piezas + $request->cantidad;
+
+    //     if ($suma <= $oc->cantidad) {
+    //         $this->realizarRegistros($request);
+    //     } else {
+    //         return $this->redireccionarConError('¡Las piezas no coinciden con la orden de compra!');
+    //     }
+    // }
 
     return redirect()->route('dashboard_produccion')->with('mensaje-success', '¡Validación final registrada con éxito!');
 }

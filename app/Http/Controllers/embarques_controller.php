@@ -58,6 +58,7 @@ class embarques_controller extends Controller
     public function salida_tratamiento(Request $request)
     {
 
+
         if ($request->tipo_salida == 'Remision') {
             $registro_jets = new models\jets_registros();
             $registro_jets->ot = $request->ot;
@@ -103,7 +104,7 @@ class embarques_controller extends Controller
             $salida_embarques->tipo_salida = $request->tipo_salida;
             $salida_embarques->tipo_tratamiento = '-';
             $salida_embarques->proveedor = '-';
-            $salida_embarques->cantidad = $request->cant_piezas;
+            $salida_embarques->cantidad = $request->cantidad;
             $salida_embarques->estatus = 'Enviada por facturación';
             $salida_embarques->save();
 
@@ -114,7 +115,7 @@ class embarques_controller extends Controller
 
             $orden = models\orders::where('id', '=', $request->ot)->first();
             $oc = $orden->cant_entregada;
-            $piezas = $request->cant_piezas;
+            $piezas = $request->cantidad;
             $suma = $oc + $piezas;
             $orden->cant_entregada = $suma;
             $orden->save();
