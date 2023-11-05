@@ -203,6 +203,8 @@ class produccion_controller extends Controller
     public function inicio_ot($orden)
     {
 
+        //Heelo
+
         $now = Carbon::now();
 
         $orden_programador = models\production::where('id', '=', $orden)->first();
