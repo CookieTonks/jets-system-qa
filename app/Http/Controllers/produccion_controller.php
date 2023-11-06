@@ -203,7 +203,6 @@ class produccion_controller extends Controller
     public function inicio_ot($orden)
     {
 
-        //Heelo
 
         $now = Carbon::now();
 
@@ -233,8 +232,6 @@ class produccion_controller extends Controller
         $registro_jets->movimiento = 'PRODUCCION - INICIADA';
         $registro_jets->responsable = Auth::user()->name;
         $registro_jets->save();
-
-
 
 
         return back()->with('mensaje-success', '¡OT iniciada a las: ' . $now . ' registrada');
@@ -332,6 +329,9 @@ class produccion_controller extends Controller
             $maquina = models\maquinas::where('codigo', '=', $orden_programador_limpia->maquina_asignada)->first();
             if ($maquina->carga >= 1) {
                 $maquina->carga -= 1;
+            }
+            else{
+                $maquina->carga = 0 ;
             }
             $maquina->estatus = 'SIN CARGA';
             $maquina->save();
