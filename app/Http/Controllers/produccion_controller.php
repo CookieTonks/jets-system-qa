@@ -337,6 +337,8 @@ class produccion_controller extends Controller
             $maquina->save();
 
 
+            //Este es un edit
+
             $orden_programador_limpia->tiempo_final = $now;
             $orden_programador_limpia->persona_asignada = "";
             $orden_programador_limpia->maquina_asignada= "";
