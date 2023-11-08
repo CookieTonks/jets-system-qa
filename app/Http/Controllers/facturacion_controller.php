@@ -62,26 +62,24 @@ class facturacion_controller extends Controller
         $salidas = (int)$salidas;
         $oc = (int)$registro_factura->cantidad;
 
+        
+        $registro_factura->factura = $request->factura;
+        $registro_factura->fecha_entregada = $date;
+        $registro_factura->estatus = "FACTURADA";
+        $registro_factura->save();
 
-        if ($salidas === $oc) {
+        $registro_jets = new models\jets_registros();
+        $registro_jets->ot = $request->ot;
+        $registro_jets->movimiento = 'FACTURACION - ENTREGA';
+        $registro_jets->responsable = Auth::user()->name;
+        $registro_jets->save();
 
-            $registro_factura->factura = $request->factura;
-            $registro_factura->fecha_entregada = $date;
-            $registro_factura->estatus = "FACTURADA";
-            $registro_factura->save();
+        $ruta = models\jets_rutas::where('ot', '=', $request->ot)->first();
+        $ruta->sistema_facturacion = 'DONE';
+        $ruta->save();
+        return back()->with('mensaje-success', '¡Factura registrada con exito!');
 
-            $registro_jets = new models\jets_registros();
-            $registro_jets->ot = $request->ot;
-            $registro_jets->movimiento = 'FACTURACION - ENTREGA';
-            $registro_jets->responsable = Auth::user()->name;
-            $registro_jets->save();
 
-            $ruta = models\jets_rutas::where('ot', '=', $request->ot)->first();
-            $ruta->sistema_facturacion = 'DONE';
-            $ruta->save();
-            return back()->with('mensaje-success', '¡Factura registrada con exito!');
-        } else {
-            return back()->with('mensaje-error', '¡La cantidad de las piezas entregadas no corresponde con la OC del cliente!');
-        }
+        
     }
 }

@@ -119,7 +119,7 @@ class calidad_controller extends Controller
 
             $produccion = models\production::where('ot', '=', $request->ot)->first();
             $produccion->estatus = 'RETRABAJO';
-            $produccion->pr = $cantpro;
+            $produccion->pr = $request->cantpro;
 
             $produccion->modalidad = 'RETRABAJO';
             $produccion->save();
