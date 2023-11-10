@@ -309,7 +309,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form action="{{ route('registro_factura') }}" method="post" enctype="multipart/form-data" target="_blank">
+                                <form action="{{ route('registro_factura') }}" method="post" enctype="multipart/form-data">
                                     @csrf
                                     <div class="row">
                                         <div class="col-md-6 form-group">
